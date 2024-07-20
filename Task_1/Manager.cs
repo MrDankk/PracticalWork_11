@@ -6,15 +6,31 @@ using System.Threading.Tasks;
 
 namespace Task_1
 {
-    class Manager : Worker
+    internal class Manager : IEditor
     {
-        /// <summary>
-        /// Приветствие
-        /// </summary>
-        public override void Greeting()
+        public void SaveChanges(Customers customer,
+                                string editFirstName,
+                                string editLastName,
+                                string editMiddleName,
+                                string editPhoneNumber,
+                                string editPassport)
         {
-            Console.Clear();
-            Console.WriteLine("Здравствуйте менеджер, вам доступны все функции.");
+            Customers editCustomer = customer;
+
+            editCustomer.FirstName = editFirstName;
+            editCustomer.LastName = editLastName;
+            editCustomer.MiddleName = editMiddleName;
+            editCustomer.PhoneNumber = editPhoneNumber;
+            editCustomer.Passport = editPassport;
+
+            Repository repository = new Repository();
+
+            repository.ApplyChanges(editCustomer);
+        }
+
+        public Customers CheckCustomer(Customers customer)
+        {
+            return customer;
         }
     }
 }

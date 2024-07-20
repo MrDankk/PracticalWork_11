@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace Task_1
 {
@@ -19,23 +7,26 @@ namespace Task_1
     /// </summary>
     public partial class NewCustomerWindow : Window
     {
-        Repository repository;
+        MainWindow mainWindow;
 
-        public NewCustomerWindow()
+        public NewCustomerWindow(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
         }
 
         private void AddNewCustomer(object sender, RoutedEventArgs e)
         {
-            repository = Repository.CreateRepository();
+             string customer = string.Join("#",
+                                          "0",
+                                          LastName.Text,
+                                          FirstName.Text,
+                                          MiddleName.Text,
+                                          PhoneNumber.Text,
+                                          Passport.Text);
 
-            Customers customer = new Customers(0 , LastName.Text, FirstName.Text,MiddleName.Text,PhoneNumber.Text,Passport.Text);
-
-            repository.AddCustomer(customer);
-
-            NewCustomerWindow newCustomerWindow = this;
-            newCustomerWindow.Close();
+            mainWindow.SaveCustomers(customer);
+            this.Close();
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task_1
 {
@@ -30,14 +27,13 @@ namespace Task_1
             get { return this.changesPath; }
         }
 
-        public List <Customers> CustomersList { get; set; }
-
-        private Repository()
+        public ObservableCollection<Customers> CustomersList { get; set; }
+        public Repository()
         {
             CustomersPath = "Customers.txt";
             ChangesPath = "CustomersEdit.txt";
 
-            CustomersList = new List <Customers>();
+            CustomersList = new ObservableCollection<Customers>();
 
             Customers[] customers = CreateCustomersArray();
 
@@ -45,11 +41,6 @@ namespace Task_1
             {
                 CustomersList.Add (customers[i]);
             }
-        }
-
-        public static Repository CreateRepository()
-        {
-            return new Repository();
         }
 
         /// <summary>
@@ -102,6 +93,71 @@ namespace Task_1
                 }
             }
             return customer;
+        }
+
+        public void RefreshListItems()
+        {
+            CustomersList.Clear();
+
+            Customers[] customers = CreateCustomersArray();
+
+            for (int i = 0; i < customers.Length; i++)
+            {
+                CustomersList.Add(customers[i]);
+            }
+        }
+
+        public void ApplyChanges(Customers editCustomer)
+        {
+            Customers[] customersArray = CreateCustomersArray();
+
+            for (int i = 0; i < customersArray.Length; i++)
+            {
+                if(editCustomer.ID == customersArray[i].ID)
+                {
+                    customersArray[i] = editCustomer;
+                    break;
+                }
+            }
+
+            File.Delete(customersPath);
+
+            for (int i = 0;i < customersArray.Length; i++)
+            {
+                AddCustomer(customersArray[i]);
+            }
+        }
+
+        public void DeleteCustomer(Customers deleteCustomer)
+        {
+            Customers[] customersArray = CreateCustomersArray();
+            Customers[] tempCustomersArray = new Customers[customersArray.Length - 1];
+
+            bool find = false;
+
+            for (int i = 0; i < tempCustomersArray.Length; i++)
+            {
+                if (deleteCustomer.ID != customersArray[i].ID && !find)
+                {
+                    tempCustomersArray[i] = customersArray[i];
+                }
+                else if(find)
+                {
+                    tempCustomersArray[i] = customersArray[i + 1];
+                }
+                else
+                {
+                    find = true;
+                    tempCustomersArray[i] = customersArray[i + 1];
+                }
+            }
+
+            File.Delete(customersPath);
+
+            for(int i = 0; i < tempCustomersArray.Length; i++)
+            {
+                AddCustomer(tempCustomersArray[i]);
+            }
         }
 
         /// <summary>

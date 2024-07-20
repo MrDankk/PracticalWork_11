@@ -56,15 +56,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consultant.cs" />
-    <Compile Include="CustomerChanges.cs" />
     <Compile Include="Customers.cs" />
+    <Compile Include="EditCustomerWindow.xaml.cs">
+      <DependentUpon>EditCustomerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IEditor.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="NewCustomerWindow.xaml.cs">
       <DependentUpon>NewCustomerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Repository.cs" />
-    <Compile Include="Worker.cs" />
+    <Compile Include="WorkerPostWindow.xaml.cs">
+      <DependentUpon>WorkerPostWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="EditCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +86,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NewCustomerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WorkerPostWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

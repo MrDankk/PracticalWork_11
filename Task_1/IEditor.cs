@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Task_1
 {
-    interface IEditor
+    internal interface IEditor
     {
-        void EditCustomer(Customers customer, byte index);
+        Customers CheckCustomer(Customers customer);
+        void SaveChanges(Customers customer,
+                                string editFirstName,
+                                string editLastName,
+                                string editMiddleName,
+                                string editPhoneNumber,
+                                string editPassport);
     }
 }

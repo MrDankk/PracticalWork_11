@@ -58,20 +58,15 @@
                 VerticalAlignment="Top"
                 Margin="0,80,0,0"
                 Height="30"
-                Width="120"/>
-        <Button Content="Обновить"
+                Width="120" Click="EditCustomer"/>
+        <Button Content="Удалить"
          Grid.Row="1"
          HorizontalAlignment="Center"
          VerticalAlignment="Top"
          Margin="0,130,0,0"
          Height="30"
-         Width="120" Click="RefreshItems"/>
-
-        <Frame x:Name="MainFrame"
-               NavigationUIVisibility="Hidden"
-               Grid.Row="1"
-               Grid.Column="0" Grid.RowSpan="2"
-               />
+         Width="120" 
+         Click="DeleteCustomer"/>
 
     </Grid>
 </Window>

@@ -1,63 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Task_1
 {
-    class Consultant : Worker
+    internal class Consultant : IEditor
     {
-        /// <summary>
-        /// Приветствие
-        /// </summary>
-        public override void Greeting()
+        private string tempPassport;
+
+        public void SaveChanges(Customers customer,
+                                string editFirstName,
+                                string editLastName,
+                                string editMiddleName,
+                                string editPhoneNumber,
+                                string editPassport)
         {
-            Console.Clear();
-            Console.WriteLine("Здравствуйте консультант, некоторые функции недоступны");
+            Customers editCustomer = customer;
+
+            editCustomer.PhoneNumber = editPhoneNumber;
+            editCustomer.Passport = tempPassport;
+
+            Repository repository = new Repository();
+
+            repository.ApplyChanges(editCustomer);
         }
 
-        /// <summary>
-        /// Информация о клиенте
-        /// </summary>
-        /// <param name="customer">Клиент</param>
-        public override void PrintCustomers(Customers customer, CustomerChanges[] customerChanges)
+        public Customers CheckCustomer(Customers customer)
         {
-            Customers newCustomer = new Customers(customer);
+            tempPassport = customer.Passport;
 
-            newCustomer.Passport = Censorship(customer.Passport);
+            customer.Passport = Censorship(customer.Passport);
 
-            base.PrintCustomers(newCustomer, customerChanges);
+            return customer;
         }
 
-        /// <summary>
-        /// Добавление клиента
-        /// </summary>
-        /// <returns></returns>
-        public override Customers NewCustomer()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Изменение данных клиента
-        /// </summary>
-        /// <param name="customer"> Клиент </param>
-        /// <param name="index"> Изменяемое поле </param>
-        public override void EditCustomer(Customers customer, byte index)
-        {
-            if (index == 4)
-            {
-                base.EditCustomer(customer, index);
-            }
-            else
-            {
-                Console.WriteLine("Недостаточно прав");
-            }
-        }
-
-        /// <summary>
-        /// Цензура строки
-        /// </summary>
-        /// <param name="original">Изначальное слово</param>
-        /// <returns></returns>
-        private string Censorship(string original)
+        public string Censorship(string original)
         {
             char[] originalCharArr = original.ToCharArray();
 
