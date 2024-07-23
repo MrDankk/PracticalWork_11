@@ -68,5 +68,32 @@
          Width="120" 
          Click="DeleteCustomer"/>
 
+        <TextBlock Text="Сортировка"
+                   Grid.Row="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   TextAlignment="Center"
+                   FontSize="19"
+                   FontWeight="Bold"
+                   Margin="0,20,0,0"
+                   Height="40"
+                   Width="140"/>
+        <Button Content = "по Фамилии" 
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="0,80,0,0"
+                Height="30"
+                Width="120" 
+                Click="SortByName"/>
+        <Button Content = "по ID" 
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="0,130,0,0"
+                Height="30"
+                Width="120"
+                Click="SortByID"/>
+
     </Grid>
 </Window>

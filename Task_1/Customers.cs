@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Task_1
 {
-    class Customers
+    class Customers : IComparable<Customers>
     {
         public int ID { get; set; }
         public string LastName { get; set; }
@@ -42,6 +44,22 @@ namespace Task_1
             this.MiddleName = customer.MiddleName;
             this.PhoneNumber = customer.PhoneNumber;
             this.Passport = customer.Passport;
+        }
+
+        public int CompareTo(Customers customer)
+        {
+            return ID.CompareTo(customer.ID);
+        }
+
+        public class SortByName : IComparer<Customers>
+        {
+            public int Compare(Customers x, Customers y)
+            {
+                Customers X = x;
+                Customers Y = y;
+
+                return String.Compare(X.Name, Y.Name);
+            }
         }
     }
 }

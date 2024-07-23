@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace Task_1
 {
     class Repository
     {
         private string customersPath;
-        private string changesPath;
 
         /// <summary>
         /// Выбор пути к файлу клиентов
@@ -17,21 +20,10 @@ namespace Task_1
             set { this.customersPath = value; }
             get { return this.customersPath; }
         }
-
-        /// <summary>
-        /// Выбор пути к файлу изменений
-        /// </summary>
-        public string ChangesPath
-        {
-            set { this.changesPath = value; }
-            get { return this.changesPath; }
-        }
-
         public ObservableCollection<Customers> CustomersList { get; set; }
         public Repository()
         {
             CustomersPath = "Customers.txt";
-            ChangesPath = "CustomersEdit.txt";
 
             CustomersList = new ObservableCollection<Customers>();
 
@@ -53,20 +45,7 @@ namespace Task_1
 
             customer.ID = ArrayLength(customersPath);
 
-            string line = string.Join("#",
-                                      customer.ID,
-                                      customer.LastName,
-                                      customer.FirstName,
-                                      customer.MiddleName,
-                                      customer.PhoneNumber,
-                                      customer.Passport);
-            using (StreamWriter streamWriter = new StreamWriter(customersPath, true))
-            {
-                if (line != "")
-                {
-                    streamWriter.WriteLine(line);
-                }
-            }
+            FileWriting(customer);
         }
 
         /// <summary>
@@ -149,14 +128,23 @@ namespace Task_1
                 {
                     find = true;
                     tempCustomersArray[i] = customersArray[i + 1];
+                    CustomersList.Remove(customersArray[i]);
                 }
             }
 
             File.Delete(customersPath);
 
+            int tempID = 0;
+
+            for (int i = 0; i < tempCustomersArray.Length; i++)
+            {
+                tempCustomersArray[i].ID = tempID;
+                tempID++;
+            }
+
             for(int i = 0; i < tempCustomersArray.Length; i++)
             {
-                AddCustomer(tempCustomersArray[i]);
+                FileWriting(tempCustomersArray[i]);
             }
         }
 
@@ -189,6 +177,24 @@ namespace Task_1
             {
                 FileStream fileStream = new FileStream(path, FileMode.Create);
                 fileStream.Close();
+            }
+        }
+
+        private void FileWriting(Customers customer)
+        {
+            string line = string.Join("#",
+                                      customer.ID,
+                                      customer.LastName,
+                                      customer.FirstName,
+                                      customer.MiddleName,
+                                      customer.PhoneNumber,
+                                      customer.Passport);
+            using (StreamWriter streamWriter = new StreamWriter(customersPath, true))
+            {
+                if (line != "")
+                {
+                    streamWriter.WriteLine(line);
+                }
             }
         }
     }

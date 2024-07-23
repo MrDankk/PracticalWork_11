@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace Task_1
@@ -41,7 +43,8 @@ namespace Task_1
             }
             else
             {
-                listView.ItemsSource = repository.CustomersList;
+                CustomersList = repository.CustomersList;
+                listView.ItemsSource = CustomersList;
             }
         }
 
@@ -111,9 +114,10 @@ namespace Task_1
             {
                 Customers customer = listView.SelectedItem as Customers;
 
-                if (customer != null && editor.GetType() != typeof(Consultant))
+                if (customer != null)
                 {
                     repository.DeleteCustomer(customer);
+                    RefreshItems();
                 }
             }
             else
@@ -159,6 +163,32 @@ namespace Task_1
             }
         }
 
-        
+        private void SortByName(object sender, RoutedEventArgs e)
+        {
+            List<Customers> newList = CustomersList.ToList();
+
+            newList.Sort(new Customers.SortByName());
+
+            CustomersList.Clear();
+
+            foreach (Customers customers in newList)
+            {
+                CustomersList.Add(customers);
+            }
+        }
+
+        private void SortByID(object sender, RoutedEventArgs e)
+        {
+            List<Customers> newList = CustomersList.ToList();
+
+            newList.Sort();
+
+            CustomersList.Clear();
+
+            foreach (Customers customers in newList)
+            {
+                CustomersList.Add(customers);
+            }
+        }
     }
 }
